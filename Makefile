@@ -1,19 +1,25 @@
-all : Writer Reader
+all: Client Server
 
-Writer: Writer.o thread.o Blockable.o Mailbox.o
-	g++ -o Writer Writer.o thread.o Blockable.o Mailbox.o -pthread -l rt
+Client : Client.o socket.o Blockable.o
+	g++ -o Client Client.o socket.o Blockable.o -pthread -l rt
 
-Reader: Reader.o thread.o Blockable.o Mailbox.o
-	g++ -o Reader Reader.o Mailbox.o -pthread -l rt
-	
-Writer.o : Writer.cpp thread.h Blockable.h SharedObject.h  Mailbox.h Semaphore.h
-	g++ -c Writer.cpp -std=c++11
+Client.o : Client.cpp socket.h
+	g++ -c Client.cpp -std=c++11
 
-thread.o : thread.cpp thread.h Blockable.h
+Server : Server.o thread.o socket.o socketserver.o Blockable.o
+	g++ -o Server Server.o thread.o socket.o socketserver.o Blockable.o -pthread -l rt
+
+Blockable.o : Blockable.h Blockable.cpp
+	g++ -c Blockable.cpp -std=c++11
+
+Server.o : Server.cpp thread.h socketserver.h
+	g++ -c Server.cpp -std=c++11
+
+thread.o : thread.cpp thread.h
 	g++ -c thread.cpp -std=c++11
 
-Blockable.o : Blockable.cpp Blockable.h
-	g++ -c Blockable.cpp -std=c++11
-	
-Reader.o : Reader.cpp SharedObject.h Semaphore.h Mailbox.h
-	g++ -c Reader.cpp -std=c++11 
+socket.o : socket.cpp socket.h
+	g++ -c socket.cpp -std=c++11
+
+socketserver.o : socketserver.cpp socket.h socketserver.h
+	g++ -c socketserver.cpp -std=c++11

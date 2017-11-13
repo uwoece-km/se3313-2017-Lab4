@@ -3,7 +3,9 @@
 #include "errno.h"
 #include <iostream>
 #include "stdio.h"
+
 namespace Sync{
+	
 Blockable cinWatcher(0);
 
 PipeUser::PipeUser(void)

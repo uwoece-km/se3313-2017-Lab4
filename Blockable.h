@@ -11,8 +11,8 @@
 #include <unistd.h>
 #include <stdarg.h>
 
-namespace Sync{
-
+namespace Sync {
+	
 typedef int TerminationException;
 
 class Blockable
@@ -81,6 +81,5 @@ public:
     FlexWait(int n,...);
     Blockable * Wait(int timeout=-1);
 };
-}; //end namespace Communication
-
+};
 #endif // BLOCKABLE_H
